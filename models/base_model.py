@@ -1,49 +1,44 @@
 #!/usr/bin/python3
-"""The base model class is created """
-import models
-from uuid import uuid4
+"""base model created in this instance"""
+import uuid
 from datetime import datetime
+import models
 
-class BaseModel:
-    """The class will be created necessarily"""
 
+class BaseModel():
+    """base model created in this"""
     def __init__(self, *args, **kwargs):
-        """Constructor for the base class
+        """base model class constructor """
+        if kwargs:
+            kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
+                                                     '%Y-%m-%dT%H:%M:%S.%f')
+            kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
+                                                     '%Y-%m-%dT%H:%M:%S.%f')
 
-        Args:
-            *args (any): Unused.
-            **kwargs (dict): Key/value pairs of attributes.
-        """
-        the_form = "%Y-%m-%dT%H:%M:%S.%f"
-        self.id = str(uuid4())
-        self.created_at = datetime.today()
-        self.updated_at = datetime.today()
-        if len(kwargs) != 0:
             for key_check, value_check in kwargs.items():
-                if key_check == "created_at" or key_check == "updated_at":
-                    self.__dict__[key_check] = datetime.strptime(value_check, the_form)
-                else:
-                    self.__dict__[key_check] = value_check
+                if key_check != '__class__':
+                    setattr(self, key_check, value_check)
         else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
             models.storage.new(self)
 
+    def __str__(self):
+        """string for base model class"""
+        return "[{}] ({}) {}".format(self.__class__.__name__,
+                                     self.id, self.__dict__)
+
     def save(self):
-        """Updates the current context in which you are in"""
-        self.updated_at = datetime.today()
+        """modified information regarding time and date"""
+        self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
-        """Returns the necessary information needed
-        """
-        return_dictionary = self.__dict__.copy()
-        return_dictionary["created_at"] = self.created_at.isoformat()
-        return_dictionary["updated_at"] = self.updated_at.isoformat()
-        return_dictionary["__class__"] = self.__class__.__name__
-        return return_dictionary
-
-    def __str__(self):
-        """Returns the information required in this context ."""
-        class_name = self.__class__.__name__
-        return "[{}] ({}) {}".format(class_name, self.id, self.__dict__)
-
+        """delete dictionary  info"""
+        dictionary_create = dict(self.__dict__)
+        dictionary_create['created_at'] = self.__dict__['created_at'].isoformat()
+        dictionary_create['updated_at'] = self.__dict__['updated_at'].isoformat()
+        dictionary_create['__class__'] = self.__class__.__name__
+        return (dictionary_create)
 
