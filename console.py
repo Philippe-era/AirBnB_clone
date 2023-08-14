@@ -37,7 +37,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         else:
             create_file = eval(argues[0] + '()')
-            models.storage.save()
+            models.new_storage.save()
             print(create_file.id)
 
     def do_show(self, argues):
@@ -51,7 +51,7 @@ class HBNBCommand(cmd.Cmd):
         elif len(string_check) == 1:
             print("** instance id missing **")
         else:
-            obj_check = models.storage.all()
+            obj_check = models.new_storage.all()
             key_check = string_check[0] + '.' + string_check[1]
             if key_check in obj_check:
                 print(obj_check[key_check])
@@ -62,7 +62,7 @@ class HBNBCommand(cmd.Cmd):
         """Deletes the instance created relevantly
         """
         argues = argues.split()
-        object_check = models.storage.all()
+        object_check = models.new_storage.all()
 
         if len(argues) == 0:
             print('** class name missing **')
@@ -74,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
             new_key = argues[0] + '.' + argues[1]
             if new_key in object_check.keys():
                 object_check.pop(new_key, None)
-                models.storage.save()
+                models.new_storage.save()
             else:
                 print('** no instance found **')
 
@@ -82,7 +82,7 @@ class HBNBCommand(cmd.Cmd):
         """Displays all instances in strings representation
         """
         argues = argues.split()
-        object_check = models.storage.all()
+        object_check = models.new_storage.all()
         new_array = []
 
         if len(argues) == 0:
@@ -100,7 +100,7 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, argues):
         """modifies information to make sure its up to date
         """
-        object_check = models.storage.all()
+        object_check = models.new_storage.all()
         argues = argues.split(" ")
 
         if len(argues) == 0:
@@ -122,7 +122,7 @@ class HBNBCommand(cmd.Cmd):
                 return
 
             setattr(obj, argues[2], argues[3].lstrip('"').rstrip('"'))
-            models.storage.save()
+            models.new_storage.save()
 
     def check_class_name(self, name=""):
         """checks whether the name is within the ranks"""
