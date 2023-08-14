@@ -1,8 +1,8 @@
 #!/usr/bin/python3
-from models import storage
+from models import new_storage
 from models.base_model import BaseModel
 
-all_objects_created = storage.all()
+all_objects_created = new_storage.all()
 print("-- Reloaded objects --")
 for object_id in all_objects_created.keys():
     object = all_objects_created[object_id]
