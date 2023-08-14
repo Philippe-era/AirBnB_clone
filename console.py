@@ -5,7 +5,7 @@ import cmd
 import shlex
 import models
 from datetime import datetime
-from models import storage
+from models import new_storage
 from models.user import User
 from models.state import State
 from models.city import City
