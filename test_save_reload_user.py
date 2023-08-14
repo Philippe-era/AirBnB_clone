@@ -1,13 +1,13 @@
 #!/usr/bin/python3
-from models import storage
+from models import new_storage
 from models.base_model import BaseModel
 from models.user import User
 
-all_object_created = storage.all()
+all_object_created = new_storage.all()
 print("-- Reloaded objects --")
 for object_id in all_object_created.keys():
     obj_check = all_object_created[object_id]
-    print(object_check)
+    print(obj_check)
 
 print("-- Create a new User --")
 user_info = User()
